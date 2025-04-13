@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录 - 外部司机配送管理系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            height: 100vh;
+            background-color: white;
+        }
+        .status-bar {
+            height: 44px;
+            background-color: #000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .status-bar-time {
+            font-weight: bold;
+        }
+        .status-bar-icons {
+            display: flex;
+            gap: 5px;
+        }
+        .tab-button {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .tab-button.active {
+            background-color: #1976D2;
+            color: white;
+        }
+        .tab-button:not(.active) {
+            background-color: #f5f5f5;
+            color: #666;
+            border: 1px solid #e0e0e0;
+        }
+        .input-field {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        .input-field:focus {
+            border-color: #1976D2;
+            outline: none;
+        }
+        .input-field.error {
+            border-color: #D32F2F;
+        }
+        .error-text {
+            color: #D32F2F;
+            font-size: 12px;
+            margin-top: -12px;
+            margin-bottom: 16px;
+        }
+        .code-container {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .code-input {
+            flex: 2;
+        }
+        .code-button {
+            flex: 1;
+            background-color: #1976D2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0 16px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .code-button:disabled {
+            background-color: #9E9E9E;
+            cursor: not-allowed;
+        }
+        .login-button {
+            width: 100%;
+            background-color: #1976D2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 16px;
+        }
+        .login-button:hover {
+            background-color: #1565C0;
+        }
+    </style>
+</head>
+<body>
+    <!-- iOS 状态栏 -->
+    <div class="status-bar">
+        <div class="status-bar-time" id="status-time">9:41</div>
+        <div class="status-bar-icons">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+
+    <!-- 登录页内容 -->
+    <div class="p-6">
+        <div class="flex justify-center items-center mb-10 mt-6">
+            <h1 class="text-2xl font-bold text-center text-blue-600">外部司机配送管理系统</h1>
+        </div>
+
+        <!-- 登录类型切换 -->
+        <div class="flex gap-4 mb-8">
+            <div class="tab-button active" id="driver-tab" onclick="switchTab('driver')">司机登录</div>
+            <div class="tab-button" id="admin-tab" onclick="switchTab('admin')">管理员登录</div>
+        </div>
+
+        <!-- 司机登录表单 -->
+        <div id="driver-form" class="login-form">
+            <div class="mb-4">
+                <input type="tel" id="phone" class="input-field" placeholder="请输入手机号" maxlength="11">
+                <div id="phone-error" class="error-text hidden"></div>
+            </div>
+
+            <div class="code-container">
+                <input type="text" id="verification-code" class="input-field code-input" placeholder="请输入验证码" maxlength="6">
+                <button id="send-code-btn" class="code-button">获取验证码</button>
+            </div>
+            <div id="code-error" class="error-text hidden"></div>
+
+            <button class="login-button" onclick="handleLogin('driver')">登录</button>
+        </div>
+
+        <!-- 管理员登录表单 -->
+        <div id="admin-form" class="login-form hidden">
+            <div class="mb-4">
+                <input type="text" id="username" class="input-field" placeholder="请输入账号">
+                <div id="username-error" class="error-text hidden"></div>
+            </div>
+
+            <div class="mb-4">
+                <input type="password" id="password" class="input-field" placeholder="请输入密码">
+                <div id="password-error" class="error-text hidden"></div>
+            </div>
+
+            <button class="login-button" onclick="handleLogin('admin')">登录</button>
+        </div>
+    </div>
+
+    <script>
+        // 更新状态栏时间
+        function updateStatusBarTime() {
+            const now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById('status-time').textContent = `${hours}:${minutes}`;
+        }
+        
+        updateStatusBarTime();
+        setInterval(updateStatusBarTime, 60000);
+
+        // 切换登录类型
+        function switchTab(type) {
+            if (type === 'driver') {
+                document.getElementById('driver-tab').classList.add('active');
+                document.getElementById('admin-tab').classList.remove('active');
+                document.getElementById('driver-form').classList.remove('hidden');
+                document.getElementById('admin-form').classList.add('hidden');
+            } else {
+                document.getElementById('admin-tab').classList.add('active');
+                document.getElementById('driver-tab').classList.remove('active');
+                document.getElementById('admin-form').classList.remove('hidden');
+                document.getElementById('driver-form').classList.add('hidden');
+            }
+        }
+
+        // 发送验证码
+        let countdown = 60;
+        let timer = null;
+        document.getElementById('send-code-btn').addEventListener('click', function() {
+            const phone = document.getElementById('phone').value;
+            const phoneError = document.getElementById('phone-error');
+            
+            // 验证手机号
+            if (!phone) {
+                phoneError.textContent = '请输入手机号';
+                phoneError.classList.remove('hidden');
+                return;
+            }
+            if (!/^1[3-9]\d{9}$/.test(phone)) {
+                phoneError.textContent = '请输入有效的手机号';
+                phoneError.classList.remove('hidden');
+                return;
+            }
+            
+            phoneError.classList.add('hidden');
+            
+            // 开始倒计时
+            this.disabled = true;
+            this.textContent = `${countdown}秒`;
+            
+            timer = setInterval(() => {
+                countdown--;
+                this.textContent = `${countdown}秒`;
+                
+                if (countdown === 0) {
+                    clearInterval(timer);
+                    this.disabled = false;
+                    this.textContent = '获取验证码';
+                    countdown = 60;
+                }
+            }, 1000);
+            
+            // 模拟发送验证码成功提示
+            alert(`验证码已发送至 ${phone}，请注意查收`);
+        });
+
+        // 登录处理
+        function handleLogin(type) {
+            if (type === 'driver') {
+                const phone = document.getElementById('phone').value;
+                const code = document.getElementById('verification-code').value;
+                const phoneError = document.getElementById('phone-error');
+                const codeError = document.getElementById('code-error');
+                
+                let isValid = true;
+                
+                // 验证手机号
+                if (!phone) {
+                    phoneError.textContent = '请输入手机号';
+                    phoneError.classList.remove('hidden');
+                    isValid = false;
+                } else if (!/^1[3-9]\d{9}$/.test(phone)) {
+                    phoneError.textContent = '请输入有效的手机号';
+                    phoneError.classList.remove('hidden');
+                    isValid = false;
+                } else {
+                    phoneError.classList.add('hidden');
+                }
+                
+                // 验证验证码
+                if (!code) {
+                    codeError.textContent = '请输入验证码';
+                    codeError.classList.remove('hidden');
+                    isValid = false;
+                } else if (!/^\d{6}$/.test(code)) {
+                    codeError.textContent = '验证码为6位数字';
+                    codeError.classList.remove('hidden');
+                    isValid = false;
+                } else {
+                    codeError.classList.add('hidden');
+                }
+                
+                if (isValid) {
+                    // 模拟登录成功，跳转到首页
+                    window.location.href = 'home.html';
+                }
+            } else {
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                const usernameError = document.getElementById('username-error');
+                const passwordError = document.getElementById('password-error');
+                
+                let isValid = true;
+                
+                // 验证用户名
+                if (!username) {
+                    usernameError.textContent = '请输入账号';
+                    usernameError.classList.remove('hidden');
+                    isValid = false;
+                } else {
+                    usernameError.classList.add('hidden');
+                }
+                
+                // 验证密码
+                if (!password) {
+                    passwordError.textContent = '请输入密码';
+                    passwordError.classList.remove('hidden');
+                    isValid = false;
+                } else {
+                    passwordError.classList.add('hidden');
+                }
+                
+                if (isValid) {
+                    // 模拟登录成功，跳转到首页
+                    window.location.href = 'home.html';
+                }
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人中心 - 外部司机配送管理系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+        .status-bar {
+            height: 44px;
+            background-color: #000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .status-bar-time {
+            font-weight: bold;
+        }
+        .status-bar-icons {
+            display: flex;
+            gap: 5px;
+        }
+        .nav-bar {
+            height: 60px;
+            background-color: white;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #e0e0e0;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #666;
+            font-size: 10px;
+        }
+        .nav-item.active {
+            color: #1976D2;
+        }
+        .nav-icon {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+        .header {
+            background-color: #1976D2;
+            color: white;
+            padding: 20px 16px;
+        }
+        .profile-info {
+            display: flex;
+            align-items: center;
+        }
+        .avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 35px;
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: #1976D2;
+            margin-right: 16px;
+        }
+        .user-info {
+            flex: 1;
+        }
+        .user-name {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        .user-id {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        .menu-section {
+            background-color: white;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+        .menu-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 12px;
+            color: #1976D2;
+        }
+        .menu-title {
+            flex: 1;
+            font-size: 16px;
+        }
+        .menu-arrow {
+            color: #ccc;
+        }
+        .section-title {
+            font-size: 14px;
+            color: #666;
+            margin: 16px 0 8px 16px;
+        }
+        .badge {
+            background-color: #FF5722;
+            color: white;
+            font-size: 12px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            margin-right: 8px;
+        }
+        .version-info {
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+            margin-top: 24px;
+            margin-bottom: 80px;
+        }
+        .main-content {
+            padding-bottom: 70px; /* 为底部导航栏留出空间 */
+        }
+    </style>
+</head>
+<body>
+    <!-- iOS 状态栏 -->
+    <div class="status-bar">
+        <div class="status-bar-time" id="status-time">9:41</div>
+        <div class="status-bar-icons">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+
+    <!-- 头部个人信息 -->
+    <div class="header">
+        <div class="profile-info">
+            <div class="avatar">张</div>
+            <div class="user-info">
+                <div class="user-name">张师傅</div>
+                <div class="user-id">ID: 10086 · 司机</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主内容区域 -->
+    <div class="p-4 main-content">
+        <!-- 账号与安全 -->
+        <div class="section-title">账号与安全</div>
+        <div class="menu-section">
+            <div class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="menu-title">个人信息</div>
+                <div class="menu-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <div class="menu-title">手机号码</div>
+                <div class="menu-arrow">
+                    <span class="text-gray-500 mr-2">138****1234</span>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <div class="menu-title">修改密码</div>
+                <div class="menu-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- 配送设置 -->
+        <div class="section-title">配送设置</div>
+        <div class="menu-section">
+            <div class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+                <div class="menu-title">配送区域</div>
+                <div class="menu-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="menu-title">消息通知</div>
+                <div class="menu-arrow">
+                    <span class="badge">2</span>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-cog"></i>
+                </div>
+                <div class="menu-title">配送偏好</div>
+                <div class="menu-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- 应用相关 -->
+        <div class="section-title">应用相关</div>
+        <div class="menu-section">
+            <div class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-question-circle"></i>
+                </div>
+                <div class="menu-title">帮助中心</div>
+                <div class="menu-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <div class="menu-title">联系客服</div>
+                <div class="menu-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+            <div class="menu-item">
+                <div class="menu-icon">
+                    <i class="fas fa-info-circle"></i>
+                </div>
+                <div class="menu-title">关于我们</div>
+                <div class="menu-arrow">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- 退出登录 -->
+        <div class="menu-section">
+            <div class="menu-item">
+                <div class="menu-title text-center text-red-500 font-medium">退出登录</div>
+            </div>
+        </div>
+
+        <!-- 版本信息 -->
+        <div class="version-info">
+            <p>外部司机配送管理系统 v1.0.0</p>
+        </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="nav-bar">
+        <div class="nav-item">
+            <i class="fas fa-home nav-icon"></i>
+            <span>首页</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-list-alt nav-icon"></i>
+            <span>订单</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-chart-bar nav-icon"></i>
+            <span>统计</span>
+        </div>
+        <div class="nav-item active">
+            <i class="fas fa-user nav-icon"></i>
+            <span>我的</span>
+        </div>
+    </div>
+
+    <script>
+        // 更新状态栏时间
+        function updateStatusBarTime() {
+            const now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById('status-time').textContent = `${hours}:${minutes}`;
+        }
+        
+        updateStatusBarTime();
+        setInterval(updateStatusBarTime, 60000);
+    </script>
+</body>
+</html>

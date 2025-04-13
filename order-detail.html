@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>订单详情 - 外部司机配送管理系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+        .status-bar {
+            height: 44px;
+            background-color: #000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .status-bar-time {
+            font-weight: bold;
+        }
+        .status-bar-icons {
+            display: flex;
+            gap: 5px;
+        }
+        .nav-bar {
+            height: 60px;
+            background-color: white;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #e0e0e0;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #666;
+            font-size: 10px;
+        }
+        .nav-item.active {
+            color: #1976D2;
+        }
+        .nav-icon {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+        .header {
+            background-color: #1976D2;
+            color: white;
+            padding: 16px;
+            position: sticky;
+            top: 44px;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+        }
+        .back-button {
+            margin-right: 16px;
+            font-size: 20px;
+        }
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #333;
+        }
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+        .status-pending {
+            background-color: #9E9E9E;
+        }
+        .status-delivering {
+            background-color: #2196F3;
+        }
+        .status-delivered {
+            background-color: #FF9800;
+        }
+        .status-completed {
+            background-color: #4CAF50;
+        }
+        .info-row {
+            display: flex;
+            margin-bottom: 12px;
+        }
+        .info-label {
+            width: 80px;
+            color: #666;
+            font-size: 14px;
+        }
+        .info-value {
+            flex: 1;
+            font-size: 14px;
+        }
+        .divider {
+            height: 1px;
+            background-color: #f0f0f0;
+            margin: 16px 0;
+        }
+        .btn {
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        .btn-primary {
+            background-color: #1976D2;
+            color: white;
+            border: none;
+        }
+        .btn-success {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+        .btn-warning {
+            background-color: #FF9800;
+            color: white;
+            border: none;
+        }
+        .btn-outline {
+            background-color: transparent;
+            color: #666;
+            border: 1px solid #e0e0e0;
+        }
+        .timeline {
+            position: relative;
+            padding-left: 28px;
+        }
+        .timeline-item {
+            position: relative;
+            padding-bottom: 20px;
+        }
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #1976D2;
+            z-index: 1;
+        }
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: -14px;
+            top: 12px;
+            width: 1px;
+            height: calc(100% - 12px);
+            background-color: #e0e0e0;
+        }
+        .timeline-item:last-child::after {
+            display: none;
+        }
+        .timeline-time {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+        .timeline-content {
+            font-size: 14px;
+        }
+        .map-container {
+            height: 200px;
+            background-color: #e9e9e9;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+        .map-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #666;
+        }
+        .map-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+            color: #1976D2;
+        }
+        .main-content {
+            padding-bottom: 70px; /* 为底部导航栏留出空间 */
+        }
+    </style>
+</head>
+<body>
+    <!-- iOS 状态栏 -->
+    <div class="status-bar">
+        <div class="status-bar-time" id="status-time">9:41</div>
+        <div class="status-bar-icons">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+
+    <!-- 头部区域 -->
+    <div class="header">
+        <div class="back-button">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <h1 class="text-xl font-bold">订单详情</h1>
+    </div>
+
+    <!-- 主内容区域 -->
+    <div class="p-4 main-content">
+        <!-- 订单状态卡片 -->
+        <div class="card p-4">
+            <div class="flex justify-between items-center">
+                <div>
+                    <div class="text-sm text-gray-500 mb-1">订单号: OD202310150002</div>
+                    <div class="status-badge status-delivering">配送中</div>
+                </div>
+                <div class="text-right">
+                    <div class="text-sm text-gray-500 mb-1">预计送达</div>
+                    <div class="font-semibold">今日 12:30</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 客户信息卡片 -->
+        <div class="card p-4">
+            <h3 class="card-title">客户信息</h3>
+            <div class="info-row">
+                <div class="info-label">姓名</div>
+                <div class="info-value">王女士</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">电话</div>
+                <div class="info-value flex justify-between">
+                    <span>139****5678</span>
+                    <a href="tel:13912345678" class="text-blue-600">
+                        <i class="fas fa-phone-alt"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="divider"></div>
+            <div class="info-row">
+                <div class="info-label">地址</div>
+                <div class="info-value">北京市海淀区中关村大街15号 科技大厦 B座 1205室</div>
+            </div>
+            <div class="map-container mt-3">
+                <div class="map-placeholder">
+                    <i class="fas fa-map-marked-alt map-icon"></i>
+                    <span>查看地图导航</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 订单信息卡片 -->
+        <div class="card p-4">
+            <h3 class="card-title">订单信息</h3>
+            <div class="info-row">
+                <div class="info-label">订单类型</div>
+                <div class="info-value">普通配送</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">配送物品</div>
+                <div class="info-value">文件包裹</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">备注</div>
+                <div class="info-value">请放在前台，联系王秘书</div>
+            </div>
+            <div class="divider"></div>
+            <div class="info-row">
+                <div class="info-label">创建时间</div>
+                <div class="info-value">2023-10-15 09:15:00</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">开始配送</div>
+                <div class="info-value">2023-10-15 09:30:00</div>
+            </div>
+        </div>
+
+        <!-- 订单操作卡片 -->
+        <div class="card p-4">
+            <div class="grid grid-cols-2 gap-4">
+                <button class="btn btn-success">确认送达</button>
+                <button class="btn btn-outline">联系客户</button>
+            </div>
+        </div>
+
+        <!-- 订单跟踪卡片 -->
+        <div class="card p-4">
+            <h3 class="card-title">订单跟踪</h3>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-time">2023-10-15 09:30:00</div>
+                    <div class="timeline-content">司机已开始配送</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">2023-10-15 09:15:00</div>
+                    <div class="timeline-content">订单已分配给司机</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">2023-10-15 09:10:00</div>
+                    <div class="timeline-content">订单已确认</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">2023-10-15 09:00:00</div>
+                    <div class="timeline-content">订单已创建</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="nav-bar">
+        <div class="nav-item">
+            <i class="fas fa-home nav-icon"></i>
+            <span>首页</span>
+        </div>
+        <div class="nav-item active">
+            <i class="fas fa-list-alt nav-icon"></i>
+            <span>订单</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-chart-bar nav-icon"></i>
+            <span>统计</span>
+        </div>
+        <div class="nav-item">
+            <i class="fas fa-user nav-icon"></i>
+            <span>我的</span>
+        </div>
+    </div>
+
+    <script>
+        // 更新状态栏时间
+        function updateStatusBarTime() {
+            const now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById('status-time').textContent = `${hours}:${minutes}`;
+        }
+        
+        updateStatusBarTime();
+        setInterval(updateStatusBarTime, 60000);
+    </script>
+</body>
+</html>

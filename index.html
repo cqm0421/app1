@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>外部司机配送管理系统 - 原型</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f0f2f5;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+        .prototype-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+        }
+        .phone-frame {
+            width: 375px;
+            height: 812px;
+            background-color: white;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            position: relative;
+            margin: 0 auto;
+            border: 10px solid #1a1a1a;
+        }
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+            background-color: white;
+        }
+        .status-bar {
+            height: 44px;
+            background-color: #000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .status-bar-time {
+            font-weight: bold;
+        }
+        .status-bar-icons {
+            display: flex;
+            gap: 5px;
+        }
+        .screen-title {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <header class="bg-blue-600 text-white p-6 shadow-md">
+        <div class="container mx-auto">
+            <h1 class="text-3xl font-bold">外部司机配送管理系统 - 原型设计</h1>
+            <p class="mt-2">基于iOS设计规范的高保真原型</p>
+        </div>
+    </header>
+
+    <div class="container mx-auto py-8">
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-4">原型说明</h2>
+            <p class="mb-4">本原型基于iOS设计规范，模拟iPhone 15 Pro尺寸(375x812)，展示外部司机配送管理系统的主要界面。</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <h3 class="text-lg font-semibold mb-2">主要功能</h3>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>司机登录与认证</li>
+                        <li>订单管理与配送</li>
+                        <li>数据统计与分析</li>
+                        <li>个人信息管理</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-2">界面列表</h3>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>启动页 (splash.html)</li>
+                        <li>登录页 (login.html)</li>
+                        <li>首页 (home.html)</li>
+                        <li>订单列表 (orders.html)</li>
+                        <li>订单详情 (order-detail.html)</li>
+                        <li>数据统计 (stats.html)</li>
+                        <li>个人中心 (profile.html)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="prototype-container">
+            <!-- 启动页 -->
+            <div class="mb-8">
+                <h3 class="screen-title">启动页</h3>
+                <div class="phone-frame">
+                    <iframe src="splash.html" frameborder="0" width="100%" height="100%"></iframe>
+                </div>
+            </div>
+
+            <!-- 登录页 -->
+            <div class="mb-8">
+                <h3 class="screen-title">登录页</h3>
+                <div class="phone-frame">
+                    <iframe src="login.html" frameborder="0" width="100%" height="100%"></iframe>
+                </div>
+            </div>
+
+            <!-- 首页 -->
+            <div class="mb-8">
+                <h3 class="screen-title">首页</h3>
+                <div class="phone-frame">
+                    <iframe src="home.html" frameborder="0" width="100%" height="100%"></iframe>
+                </div>
+            </div>
+
+            <!-- 订单列表 -->
+            <div class="mb-8">
+                <h3 class="screen-title">订单列表</h3>
+                <div class="phone-frame">
+                    <iframe src="orders.html" frameborder="0" width="100%" height="100%"></iframe>
+                </div>
+            </div>
+
+            <!-- 订单详情 -->
+            <div class="mb-8">
+                <h3 class="screen-title">订单详情</h3>
+                <div class="phone-frame">
+                    <iframe src="order-detail.html" frameborder="0" width="100%" height="100%"></iframe>
+                </div>
+            </div>
+
+            <!-- 数据统计 -->
+            <div class="mb-8">
+                <h3 class="screen-title">数据统计</h3>
+                <div class="phone-frame">
+                    <iframe src="stats.html" frameborder="0" width="100%" height="100%"></iframe>
+                </div>
+            </div>
+
+            <!-- 个人中心 -->
+            <div class="mb-8">
+                <h3 class="screen-title">个人中心</h3>
+                <div class="phone-frame">
+                    <iframe src="profile.html" frameborder="0" width="100%" height="100%"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-gray-800 text-white p-6">
+        <div class="container mx-auto text-center">
+            <p>© 2023 外部司机配送管理系统 - 原型设计</p>
+        </div>
+    </footer>
+</body>
+</html>

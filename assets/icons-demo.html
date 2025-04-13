@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG图标展示 - 外部司机配送管理系统</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        .icon-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .icon-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100px;
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .icon {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 10px;
+        }
+        .icon-name {
+            font-size: 12px;
+            text-align: center;
+            color: #333;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        h1 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        h2 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .progress-demo {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <h1>SVG图标库展示</h1>
+    <p class="mb-5">这个页面展示了配送管理系统使用的所有SVG图标。</p>
+    
+    <div class="section">
+        <h2>导航栏图标</h2>
+        <div class="icon-container">
+            <div class="icon-item">
+                <svg class="icon" fill="#1976D2">
+                    <use xlink:href="icons.svg#icon-home"></use>
+                </svg>
+                <span class="icon-name">首页</span>
+            </div>
+            <div class="icon-item">
+                <svg class="icon" fill="#1976D2">
+                    <use xlink:href="icons.svg#icon-orders"></use>
+                </svg>
+                <span class="icon-name">订单</span>
+            </div>
+            <div class="icon-item">
+                <svg class="icon" fill="#1976D2">
+                    <use xlink:href="icons.svg#icon-stats"></use>
+                </svg>
+                <span class="icon-name">统计</span>
+            </div>
+            <div class="icon-item">
+                <svg class="icon" fill="#1976D2">
+                    <use xlink:href="icons.svg#icon-profile"></use>
+                </svg>
+                <span class="icon-name">我的</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>状态指示图标</h2>
+        <div class="icon-container">
+            <div class="icon-item">
+                <svg class="icon" fill="#9E9E9E">
+                    <use xlink:href="icons.svg#icon-pending"></use>
+                </svg>
+                <span class="icon-name">待配送</span>
+            </div>
+            <div class="icon-item">
+                <svg class="icon" fill="#2196F3">
+                    <use xlink:href="icons.svg#icon-delivering"></use>
+                </svg>
+                <span class="icon-name">配送中</span>
+            </div>
+            <div class="icon-item">
+                <svg class="icon" fill="#FF9800">
+                    <use xlink:href="icons.svg#icon-delivered"></use>
+                </svg>
+                <span class="icon-name">已送达</span>
+            </div>
+            <div class="icon-item">
+                <svg class="icon" fill="#4CAF50">
+                    <use xlink:href="icons.svg#icon-completed"></use>
+                </svg>
+                <span class="icon-name">已完成</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>功能图标</h2>
+        <div class="icon-container">
+            <div class="icon-item">
+                <svg class="icon" fill="#333">
+                    <use xlink:href="icons.svg#icon-location"></use>
+                </svg>
+                <span class="icon-name">位置</span>
+            </div>
+            <div class="icon-item">
+                <svg class="icon" fill="#333">
+                    <use xlink:href="icons.svg#icon-phone"></use>
+                </svg>
+                <span class="icon-name">电话</span>
+            </div>
+            <div class="icon-item">
+                <svg class="icon" fill="#333">
+                    <use xlink:href="icons.svg#icon-add"></use>
+                </svg>
+                <span class="icon-name">添加</span>
+            </div>
+            <div class="icon-item">
+                <svg class="icon" fill="#333">
+                    <use xlink:href="icons.svg#icon-edit"></use>
+                </svg>
+                <span class="icon-name">编辑</span>
+            </div>
+            <div class="icon-item">
+                <svg class="icon" fill="#333">
+                    <use xlink:href="icons.svg#icon-delete"></use>
+                </svg>
+                <span class="icon-name">删除</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>数据可视化图标</h2>
+        <div class="icon-container">
+            <div class="icon-item">
+                <svg class="icon" fill="#1976D2">
+                    <use xlink:href="icons.svg#icon-pie-chart"></use>
+                </svg>
+                <span class="icon-name">饼图</span>
+            </div>
+            <div class="icon-item">
+                <svg class="icon" fill="#1976D2">
+                    <use xlink:href="icons.svg#icon-bar-chart"></use>
+                </svg>
+                <span class="icon-name">柱状图</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>系统状态图标</h2>
+        <div class="icon-container">
+            <div class="icon-item">
+                <svg class="icon" fill="#333">
+                    <use xlink:href="icons.svg#icon-signal"></use>
+                </svg>
+                <span class="icon-name">信号</span>
+            </div>
+            <div class="icon-item">
+                <svg class="icon" fill="#333">
+                    <use xlink:href="icons.svg#icon-wifi"></use>
+                </svg>
+                <span class="icon-name">WiFi</span>
+            </div>
+            <div class="icon-item">
+                <svg class="icon" fill="#333">
+                    <use xlink:href="icons.svg#icon-battery"></use>
+                </svg>
+                <span class="icon-name">电池</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>进度指示器</h2>
+        <div class="icon-container">
+            <div class="icon-item" style="width: 120px; height: 120px;">
+                <svg class="progress-demo">
+                    <use xlink:href="icons.svg#icon-circle-progress"></use>
+                </svg>
+                <span class="icon-name">圆形进度</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-10 mb-5">
+        <h2>使用方法</h2>
+        <pre class="bg-gray-100 p-4 rounded overflow-auto text-sm">
+&lt;!-- 在HTML中引入SVG文件 --&gt;
+&lt;svg class="icon" fill="currentColor"&gt;
+    &lt;use xlink:href="icons.svg#icon-name"&gt;&lt;/use&gt;
+&lt;/svg&gt;
+        </pre>
+    </div>
+</body>
+</html>
